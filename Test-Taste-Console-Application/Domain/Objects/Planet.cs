@@ -15,6 +15,7 @@ namespace Test_Taste_Console_Application.Domain.Objects
         {
             get => 0.0f;
         }
+        public float? AvgTemp { get; set; }
 
         public Planet(PlanetDto planetDto)
         {
@@ -28,6 +29,7 @@ namespace Test_Taste_Console_Application.Domain.Objects
                     Moons.Add(new Moon(moonDto));
                 }
             }
+            AvgTemp = planetDto.AvgTemp;
         }
 
         public Boolean HasMoons()

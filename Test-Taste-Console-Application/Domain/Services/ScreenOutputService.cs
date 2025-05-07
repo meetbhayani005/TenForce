@@ -185,5 +185,56 @@ namespace Test_Taste_Console_Application.Domain.Services
                 --------------------+--------------------------------------------------
             */
         }
+
+        public void OutputPlanetsAndTheirAverageMoonTemperatureToConsole()
+        {
+            //The function works the same way as the OutputAllPlanetsAndTheirAverageMoonGravityToConsole function.
+
+            try
+            {
+                Console.WriteLine("Calculating average moon temperature for each planet...");
+                var planets = _planetService.GetAllPlanets().ToArray();
+                if (!planets.Any())
+                {
+                    Console.WriteLine(OutputString.NoMoonsFound);
+                    return;
+                }
+
+
+                var columnSizes = new[] { 20, 20, 30 };
+                var columnLabels = new[]
+                {
+                    OutputString.PlanetId, OutputString.TotalMoons, OutputString.PlanetMoonAverageTemperature
+                };
+
+
+                ConsoleWriter.CreateHeader(columnLabels, columnSizes);
+                // Loop through each planet and its data if it has moons
+                foreach (Planet planet in planets)
+                {
+                    if (planet.HasMoons())
+                    {
+                        ConsoleWriter.CreateText(new string[] { $"{CultureInfoUtility.TextInfo.ToTitleCase(planet.Id)}", $"{planet.Moons.Count.ToString()}", $"{planet.AvgTemp}" }, columnSizes);
+                    }
+                }
+
+                ConsoleWriter.CreateLine(columnSizes);
+                ConsoleWriter.CreateEmptyLines(2);
+                Console.WriteLine("Data loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while processing planets and moon temperatures.");
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            /*
+                --------------------+--------------------------------------------------
+                Planet's Number     |Planet's Average Moon Temperature
+                --------------------+--------------------------------------------------
+                1                   |0.0
+                --------------------+--------------------------------------------------
+            */
+        }
+
     }
 }
